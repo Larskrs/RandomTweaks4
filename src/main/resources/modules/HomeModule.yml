@@ -1,0 +1,7 @@
+# This is a cool thing to have on your server.
+# When set as false this module will not be enabled.
+enabled: true
+
+# How many homes should a normal player have?
+# Ths can be overriden by player permission.
+max-homes: 3
