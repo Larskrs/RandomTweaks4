@@ -5,6 +5,8 @@ import net.larskrs.plugins.randomtweaks4.object.Command;
 import net.larskrs.plugins.randomtweaks4.tools.ConfigTools;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -50,7 +52,10 @@ public class DelhomeCommand extends Command {
                     //   /delhome homeName confirm
 
                     p.sendMessage("You need to confirm the deletion.");
-                    TextComponent txtC = new TextComponent();
+                    TextComponent text = new TextComponent(ChatColor.RED + "Confirm");
+                    text.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.YELLOW + " Click to confirm deletion. ").create()));
+                    text.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/delhome " + homeName + " confirm"));
+                    p.spigot().sendMessage(text);
                 }
             } else {
                 p.sendMessage(ChatColor.RED + " # That is not a home.");
