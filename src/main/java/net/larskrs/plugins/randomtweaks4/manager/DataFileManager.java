@@ -1,4 +1,4 @@
-package net.larskrs.plugins.randomtweaks4.modules;
+package net.larskrs.plugins.randomtweaks4.manager;
 
 import net.larskrs.plugins.randomtweaks4.RandomTweaks4;
 import net.larskrs.plugins.randomtweaks4.object.ModuleFile;

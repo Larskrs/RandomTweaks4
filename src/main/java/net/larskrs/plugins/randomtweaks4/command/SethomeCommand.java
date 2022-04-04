@@ -1,15 +1,13 @@
 package net.larskrs.plugins.randomtweaks4.command;
 
 import net.larskrs.plugins.randomtweaks4.manager.ModuleManager;
-import net.larskrs.plugins.randomtweaks4.modules.DataFileManager;
+import net.larskrs.plugins.randomtweaks4.manager.DataFileManager;
 import net.larskrs.plugins.randomtweaks4.object.Command;
 import net.larskrs.plugins.randomtweaks4.tools.ConfigTools;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
-import javax.xml.crypto.Data;
 import java.util.List;
 
 public class SethomeCommand extends Command {

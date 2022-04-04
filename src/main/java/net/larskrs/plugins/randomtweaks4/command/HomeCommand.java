@@ -1,7 +1,6 @@
 package net.larskrs.plugins.randomtweaks4.command;
 
-import net.larskrs.plugins.randomtweaks4.manager.ModuleManager;
-import net.larskrs.plugins.randomtweaks4.modules.DataFileManager;
+import net.larskrs.plugins.randomtweaks4.manager.DataFileManager;
 import net.larskrs.plugins.randomtweaks4.object.Command;
 import net.larskrs.plugins.randomtweaks4.tools.ConfigTools;
 import org.bukkit.ChatColor;
@@ -9,8 +8,8 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class HomeCommand extends Command {
         public HomeCommand() {
@@ -51,6 +50,13 @@ public class HomeCommand extends Command {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, String[] args) {
-        return null;
+
+        if (sender instanceof Player) {
+            Player p = (Player) sender;
+            return new ArrayList<>(DataFileManager.getConfig().getConfigurationSection("player-data." + p.getUniqueId() + ".homes").getKeys(false));
+        } else {
+            return null;
+        }
+
     }
 }

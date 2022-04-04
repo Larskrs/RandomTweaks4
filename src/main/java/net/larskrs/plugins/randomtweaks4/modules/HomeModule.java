@@ -1,6 +1,7 @@
 package net.larskrs.plugins.randomtweaks4.modules;
 
 import net.larskrs.plugins.randomtweaks4.RandomTweaks4;
+import net.larskrs.plugins.randomtweaks4.command.DelhomeCommand;
 import net.larskrs.plugins.randomtweaks4.command.HomeCommand;
 import net.larskrs.plugins.randomtweaks4.command.SethomeCommand;
 import net.larskrs.plugins.randomtweaks4.object.RTModule;
@@ -15,6 +16,7 @@ public class HomeModule extends RTModule {
         if (this.getModuleFile().isEnabled()) {
             new HomeCommand();
             new SethomeCommand();
+            new DelhomeCommand();
         }
     }
 }

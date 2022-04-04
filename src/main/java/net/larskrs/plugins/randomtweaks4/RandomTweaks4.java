@@ -1,9 +1,8 @@
 package net.larskrs.plugins.randomtweaks4;
 
-import net.larskrs.plugins.randomtweaks4.command.HomeCommand;
 import net.larskrs.plugins.randomtweaks4.command.ModuleCommand;
 import net.larskrs.plugins.randomtweaks4.manager.ModuleManager;
-import net.larskrs.plugins.randomtweaks4.modules.DataFileManager;
+import net.larskrs.plugins.randomtweaks4.manager.DataFileManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class RandomTweaks4 extends JavaPlugin {
