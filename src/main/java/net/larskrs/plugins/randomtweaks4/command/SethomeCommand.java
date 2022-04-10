@@ -26,13 +26,13 @@ public class SethomeCommand extends Command {
                 Player p = (Player) sender;
 
                 String homeName = (args.length == 1) ? args[0] : "Home";
-                Boolean hasHome = DataFileManager.getConfig().isConfigurationSection("player-data." + p.getUniqueId() + ".homes");
+                boolean hasHome = DataFileManager.getConfig().isConfigurationSection("player-data." + p.getUniqueId() + ".homes");
 
 
                     if (hasHome) {
                         int playerHomes = DataFileManager.getConfig().getConfigurationSection("player-data." + p.getUniqueId() + ".homes.").getKeys(false).size();
 
-                        if (ModuleManager.getModuleByName("HomeModule").getModuleFile().getConfig().getInt("max-homes") > playerHomes) {
+                        if (ModuleManager.getModuleByName("HomeModule").getModuleFile().getConfig().getInt("max-homes") > playerHomes || DataFileManager.getConfig().getConfigurationSection("player-data." + p.getUniqueId() + ".homes.").getKeys(false).contains(homeName)) {
                             ConfigTools.setLocationToConfSection(DataFileManager.getConfig(), "player-data." + p.getUniqueId() + ".homes." + homeName, p.getLocation());
                             DataFileManager.saveFile();
                             DataFileManager.reloadFile();
