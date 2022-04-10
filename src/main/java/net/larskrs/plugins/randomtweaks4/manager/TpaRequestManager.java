@@ -3,30 +3,42 @@ package net.larskrs.plugins.randomtweaks4.manager;
 import net.larskrs.plugins.randomtweaks4.object.TpaRequest;
 
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 public class TpaRequestManager {
 
-    private static HashMap<UUID, TpaRequest> requests;
+    private static List<TpaRequest> requests;
 
     public static void setUp() {
-        requests = new HashMap<>();
+        requests = new ArrayList<>();
     }
 
     public static boolean hasRequest (UUID uuid) {
-        return requests.containsKey(uuid);
+        for (TpaRequest tpaRequest : requests) {
+            return tpaRequest.recipient == uuid;
+        }
+        return false;
     }
     public static TpaRequest getRequest(UUID uuid) {
         if (hasRequest(uuid)) {
-            requests.get(uuid);
+            for (TpaRequest tpaRequest : requests) {
+                if (tpaRequest.recipient == uuid) {
+                    return tpaRequest;
+                }
+            }
         }
         return null;
     }
 
     public static void sendRequest(UUID rq, UUID recipient) {
         TpaRequest tpaRequest = new TpaRequest(rq, recipient);
-        requests.put(recipient, tpaRequest);
+        requests.add(tpaRequest);
         tpaRequest.start();
+    }
+    public static void closeRequest(TpaRequest r) {
+        requests.remove(r);
     }
 }

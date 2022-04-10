@@ -1,0 +1,27 @@
+# The short litle text before commands.
+prefix: "&d[&fRandomTweaks &d4]" # This can only be one line.
+
+general:
+  only-ran-by-player:
+    - "&c # This command can only be ran by players. sorry :("
+
+tpa-module:
+  request-recieved:
+    - "&e # &6%requester% &7wants to teleport to you."
+  request-sent:
+    - "&e # &7You sent an invite."
+  request-cant-self:
+    - "&c # You can not teleport to yourself."
+  request-not-player:
+    - "&c # You must write the name of a player."
+  player-teleported:
+    - "&a # &7You have been teleported."
+  request-accepted:
+    - "&a # &7Player is being teleported now."
+  request-expired:
+    - "&c # &7%player% did not respond to the teleportation request in time."
+drone-module:
+  drone-activated:
+    - "&a # &7Drone &aactivated."
+  drone-deactivated:
+    - "&c # &7Drone &cdeactivated."

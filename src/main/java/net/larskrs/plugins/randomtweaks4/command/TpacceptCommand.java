@@ -27,6 +27,8 @@ public class TpacceptCommand extends Command {
 
                 if (TpaRequestManager.hasRequest(p.getUniqueId())) {
                     TpaRequestManager.getRequest(p.getUniqueId()).respond(true);
+                } else {
+                    p.sendMessage("You do not have any pending requests.");
                 }
 
         } else {

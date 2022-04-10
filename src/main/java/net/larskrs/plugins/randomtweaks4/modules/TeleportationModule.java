@@ -2,6 +2,7 @@ package net.larskrs.plugins.randomtweaks4.modules;
 
 import net.larskrs.plugins.randomtweaks4.RandomTweaks4;
 import net.larskrs.plugins.randomtweaks4.command.*;
+import net.larskrs.plugins.randomtweaks4.manager.TpaRequestManager;
 import net.larskrs.plugins.randomtweaks4.object.RTModule;
 
 public class TeleportationModule extends RTModule {
@@ -12,6 +13,7 @@ public class TeleportationModule extends RTModule {
     @Override
     public void Initialize() {
         if (this.getModuleFile().isEnabled()) {
+            TpaRequestManager.setUp();
             new TpaCommand();
             new TpacceptCommand();
         }

@@ -1,6 +1,7 @@
 package net.larskrs.plugins.randomtweaks4.manager;
 
 import net.larskrs.plugins.randomtweaks4.RandomTweaks4;
+import net.larskrs.plugins.randomtweaks4.modules.DroneModule;
 import net.larskrs.plugins.randomtweaks4.modules.HomeModule;
 import net.larskrs.plugins.randomtweaks4.modules.TeleportationModule;
 import net.larskrs.plugins.randomtweaks4.object.RTModule;
@@ -21,6 +22,7 @@ public class ModuleManager {
 
         moduleList.add(new HomeModule(main, "HomeModule"));
         moduleList.add(new TeleportationModule(main, "TeleportationModule"));
+        moduleList.add(new DroneModule(main, "DroneModule"));
     }
     public static RTModule getModuleByName(String name) {
         for (RTModule m : moduleList

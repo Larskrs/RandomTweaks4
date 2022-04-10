@@ -3,6 +3,7 @@ package net.larskrs.plugins.randomtweaks4.tools;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.util.Vector;
 
 public class ConfigTools {
 
@@ -25,4 +26,14 @@ public class ConfigTools {
         );
     }
 
+    public static void setVector(YamlConfiguration conf, String adr, Vector vel) {
+        conf.set(adr + ".vector.x", vel.getX());
+        conf.set(adr + ".vector.y", vel.getY());
+        conf.set(adr + ".vector.z", vel.getZ());
+    }
+    public static Vector getVector(YamlConfiguration conf, String adr) {
+        return new Vector(
+          conf.getDouble(adr + ".vector.x"), conf.getDouble(adr + ".vector.y"), conf.getDouble(adr + ".vector.z")
+                );
+    }
 }

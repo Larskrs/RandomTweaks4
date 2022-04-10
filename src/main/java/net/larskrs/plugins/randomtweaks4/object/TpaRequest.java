@@ -1,20 +1,28 @@
 package net.larskrs.plugins.randomtweaks4.object;
 
 import net.larskrs.plugins.randomtweaks4.RandomTweaks4;
+import net.larskrs.plugins.randomtweaks4.manager.LangManager;
 import net.larskrs.plugins.randomtweaks4.manager.ModuleManager;
+import net.larskrs.plugins.randomtweaks4.manager.TpaRequestManager;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.StringUtil;
 import sun.management.GarbageCollectorImpl;
 
+import java.awt.*;
 import java.lang.management.GarbageCollectorMXBean;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 public class TpaRequest extends BukkitRunnable {
 
-    private UUID recipient, requester;
+    public UUID recipient, requester;
     private int requestTime = Objects.requireNonNull(ModuleManager.getModuleByName("TeleportationModule")).getConfigFile().getInt("tp-request-timer");
     private boolean isExpired;
 
@@ -24,6 +32,15 @@ public class TpaRequest extends BukkitRunnable {
     }
 
     public void start() {
+
+        Player req = Bukkit.getPlayer(requester);
+        Player rec = Bukkit.getPlayer(recipient);
+
+        TextComponent button = new TextComponent(ChatColor.GREEN + "[✓]");
+        button.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpaccept"));
+
+        LangManager.sendMessage(rec, LangManager.replace(LangManager.getMessageFromLocation("tpa-module.request-recieved"), "%requester%",req.getName()));
+        rec.spigot().sendMessage(button);
         runTaskTimer(RandomTweaks4.getInstance(), 0, 20);
     }
     public void expire() {
@@ -31,23 +48,32 @@ public class TpaRequest extends BukkitRunnable {
         Player req = Bukkit.getPlayer(requester);
         Player rec = Bukkit.getPlayer(recipient);
 
-        req.sendMessage(ChatColor.RED + " # " + ChatColor.GRAY + rec.getName() + " did not respond to the teleportation request in time.");
+        LangManager.sendMessage(req, LangManager.replace(LangManager.getMessageFromLocation("tpa-module.request-expired"), "%player%", rec.getName()));
 
         isExpired = true;
+        TpaRequestManager.closeRequest(this);
+        System.gc();
     }
     public void respond(boolean teleport) {
         Player req = Bukkit.getPlayer(requester);
         Player rec = Bukkit.getPlayer(recipient);
 
         req.teleport(rec);
-        req.sendMessage("You have been teleported.");
-        rec.sendMessage("You accepted the request.");
+        LangManager.sendMessage(req, "tpa-module.player-teleported");
+        LangManager.sendMessage(rec, "tpa-module.request-accepted");
+
+        isExpired = true;
+        TpaRequestManager.closeRequest(this);
+        System.gc();
     }
 
     @Override
     public void run() {
-        if (requestTime == 0 && !isExpired) {
+        if (requestTime == 0) {
+            if (!isExpired) {
             expire();
+            cancel();
+            }
         }
             requestTime--;
     }
