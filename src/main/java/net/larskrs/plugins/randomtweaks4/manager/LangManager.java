@@ -55,7 +55,7 @@ public class LangManager {
         }
     }
     public static String getPrefix() {
-        return getMessageFromLocation("prefix").get(0);
+        return ChatColor.translateAlternateColorCodes('&', getMessageFromLocation("prefix").get(0));
     }
     public static void sendMessage(Player p, String location) {
         sendMessage(p, getMessageFromLocation(location));

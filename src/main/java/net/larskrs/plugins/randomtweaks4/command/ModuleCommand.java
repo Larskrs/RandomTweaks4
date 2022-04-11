@@ -46,6 +46,17 @@ public class ModuleCommand extends net.larskrs.plugins.randomtweaks4.object.Comm
                     RTModule m = ModuleManager.getModules().get(i);
                     sender.sendMessage(ChatColorTool.getBooleanColor(m.getModuleFile().isEnabled()) + " ● " + ChatColor.GRAY + m.getDisplayName() + ((m.getModuleFile().isEnabled()) ? ChatColor.GREEN + " > Enabled" : ChatColor.RED + " > Disabled"));
                 }
+            } if (args.length > 1 && args[0].equalsIgnoreCase("reload")) {
+                if (ModuleManager.isModule(args[1])) {
+                    RTModule module = ModuleManager.getModuleByName(args[1]);
+                    ModuleFile moduleFile = module.getModuleFile();
+                    module.getModuleFile().reloadFile();
+                    module.Reload();
+
+                    sender.sendMessage(ChatColor.GRAY + " # You set the module to " + ((moduleFile.isEnabled()) ? ChatColor.GREEN + " > Enabled" : ChatColor.RED + " > Disabled"));
+                } else {
+                    sender.sendMessage(ChatColor.RED + " # That is not the name of a module!");
+                }
             }
         }
 

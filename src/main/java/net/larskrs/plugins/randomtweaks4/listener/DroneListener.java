@@ -10,6 +10,8 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.player.PlayerAdvancementDoneEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 public class DroneListener implements Listener {
@@ -48,6 +50,13 @@ public class DroneListener implements Listener {
     }
     @EventHandler
     public void PlayerInteract(PlayerInteractEvent e) {
+        Player p = e.getPlayer();
+        if (DroneManager.isDrone(p.getUniqueId())) {
+            e.setCancelled(true);
+        }
+    }
+    @EventHandler
+    public void PlayerDropItem(PlayerDropItemEvent e) {
         Player p = e.getPlayer();
         if (DroneManager.isDrone(p.getUniqueId())) {
             e.setCancelled(true);

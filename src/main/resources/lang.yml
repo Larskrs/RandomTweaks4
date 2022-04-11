@@ -1,5 +1,6 @@
 # The short litle text before commands.
-prefix: "&d[&fRandomTweaks &d4]" # This can only be one line.
+prefix:
+  - "&d[&fRandomTweaks &d4]" # This can only be one line.
 
 general:
   only-ran-by-player:
@@ -22,6 +23,6 @@ tpa-module:
     - "&c # &7%player% did not respond to the teleportation request in time."
 drone-module:
   drone-activated:
-    - "&a # &7Drone &aactivated."
+    - "&a # &7Drone activated."
   drone-deactivated:
-    - "&c # &7Drone &cdeactivated."
+    - "&c # &7Drone deactivated."

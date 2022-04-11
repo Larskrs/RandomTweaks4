@@ -2,8 +2,14 @@ package net.larskrs.plugins.randomtweaks4.tools;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.util.Vector;
+import org.yaml.snakeyaml.Yaml;
 
 public class ConfigTools {
 
@@ -35,5 +41,19 @@ public class ConfigTools {
         return new Vector(
           conf.getDouble(adr + ".vector.x"), conf.getDouble(adr + ".vector.y"), conf.getDouble(adr + ".vector.z")
                 );
+    }
+    public static void savePlayerInventory(YamlConfiguration conf, String s, PlayerInventory inv) {
+        for(int i = 0 ; i < inv.getSize() ; i++) {
+            if(inv.getItem(i) != null) {
+                conf.set(s + "." + Integer.toString(i), inv.getItem(i));
+            }
+        }
+    }
+    public static void getPlayerInventory(YamlConfiguration conf, String s, Player p) {
+        for(String keys : conf.getConfigurationSection(s).getKeys(false)) {
+            int slot = Integer.parseInt(keys);
+            ItemStack item = conf.getItemStack(s+ "." + slot);
+            p.getInventory().setItem(slot, item);
+        }
     }
 }

@@ -28,4 +28,5 @@ public abstract class RTModule {
     }
 
     public abstract void Initialize();
+    public abstract void Reload();
 }

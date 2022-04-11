@@ -21,4 +21,9 @@ public class HomeModule extends RTModule {
             new HomesCommand();
         }
     }
+
+    @Override
+    public void Reload() {
+
+    }
 }

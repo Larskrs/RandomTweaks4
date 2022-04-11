@@ -23,4 +23,8 @@ public class DroneModule extends RTModule {
             new DroneCommand();
         }
     }
+    @Override
+    public void Reload() {
+
+    }
 }

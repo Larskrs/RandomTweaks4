@@ -2,3 +2,5 @@ name: RandomTweaks4
 version: '${project.version}'
 main: net.larskrs.plugins.randomtweaks4.RandomTweaks4
 authors: [ Larskrs ]
+softdepend:
+  - Citizens

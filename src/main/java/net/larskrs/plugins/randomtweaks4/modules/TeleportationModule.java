@@ -18,4 +18,8 @@ public class TeleportationModule extends RTModule {
             new TpacceptCommand();
         }
     }
+    @Override
+    public void Reload() {
+
+    }
 }
