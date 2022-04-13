@@ -1,12 +1,11 @@
 package net.larskrs.plugins.randomtweaks4;
 
-import net.citizensnpcs.api.CitizensAPI;
 import net.larskrs.plugins.randomtweaks4.command.ModuleCommand;
 import net.larskrs.plugins.randomtweaks4.listener.DroneListener;
 import net.larskrs.plugins.randomtweaks4.listener.JoinListener;
-import net.larskrs.plugins.randomtweaks4.listener.NpcListener;
+import net.larskrs.plugins.randomtweaks4.listener.TpaListener;
 import net.larskrs.plugins.randomtweaks4.manager.*;
-import net.larskrs.plugins.randomtweaks4.object.Drone;
+import net.larskrs.plugins.randomtweaks4.modules.DroneModule;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -16,6 +15,7 @@ public final class RandomTweaks4 extends JavaPlugin {
 
     private static RandomTweaks4 Instance;
     private boolean hasCitizens;
+    private boolean hasPlaceholderAPI;
 
     @Override
     public void onEnable() {
@@ -27,16 +27,23 @@ public final class RandomTweaks4 extends JavaPlugin {
         // Register commands.
             new ModuleCommand();
         hasCitizens = Bukkit.getPluginManager().getPlugin("Citizens") != null && Bukkit.getPluginManager().getPlugin("Citizens").isEnabled();
+        hasPlaceholderAPI = Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null && Bukkit.getPluginManager().getPlugin("PlaceholderAPI").isEnabled();
         if (hasCitizens) {
             Bukkit.getConsoleSender().sendMessage(LangManager.getPrefix() + ChatColor.GREEN + " Hooked into Citizens!");
         }
         Bukkit.getPluginManager().registerEvents(new JoinListener(), this);
         if (ModuleManager.getModuleByName("DroneModule").getModuleFile().isEnabled()) {
+            Bukkit.getPluginManager().registerEvents(new DroneListener(), this);
+            if (ModuleManager.getModuleByName("DroneModule").getConfigFile().getBoolean("custom-item")) {
+            DroneModule.registerDroneRecipe(this);
+            }
             DroneManager.clearDrones();
             if (hasCitizens) {
                 //Bukkit.getPluginManager().registerEvents(new NpcListener(), this);
             }
-        Bukkit.getPluginManager().registerEvents(new DroneListener(), this);
+        }
+        if (ModuleManager.getModuleByName("TeleportationModule").getModuleFile().isEnabled()) {
+            Bukkit.getPluginManager().registerEvents(new TpaListener(), this);
         }
 
 
@@ -59,5 +66,9 @@ public final class RandomTweaks4 extends JavaPlugin {
 
     public boolean hasCitizens() {
         return hasCitizens;
+    }
+
+    public boolean hasPlaceholderAPI() {
+        return hasPlaceholderAPI;
     }
 }

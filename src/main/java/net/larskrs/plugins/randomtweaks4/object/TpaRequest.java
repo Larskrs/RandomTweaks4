@@ -1,6 +1,7 @@
 package net.larskrs.plugins.randomtweaks4.object;
 
 import net.larskrs.plugins.randomtweaks4.RandomTweaks4;
+import net.larskrs.plugins.randomtweaks4.events.PlayerTeleportRequestAcceptedEvent;
 import net.larskrs.plugins.randomtweaks4.manager.LangManager;
 import net.larskrs.plugins.randomtweaks4.manager.ModuleManager;
 import net.larskrs.plugins.randomtweaks4.manager.TpaRequestManager;
@@ -25,6 +26,7 @@ public class TpaRequest extends BukkitRunnable {
     public UUID recipient, requester;
     private int requestTime = Objects.requireNonNull(ModuleManager.getModuleByName("TeleportationModule")).getConfigFile().getInt("tp-request-timer");
     private boolean isExpired;
+    private  PlayerTeleportRequestAcceptedEvent event;
 
     public TpaRequest(UUID requester, UUID recipient) {
         this.recipient = recipient;
@@ -42,6 +44,9 @@ public class TpaRequest extends BukkitRunnable {
         LangManager.sendMessage(rec, LangManager.replace(LangManager.getMessageFromLocation("tpa-module.request-recieved"), "%requester%",req.getName()));
         rec.spigot().sendMessage(button);
         runTaskTimer(RandomTweaks4.getInstance(), 0, 20);
+
+        event = new PlayerTeleportRequestAcceptedEvent(req, rec);
+        Bukkit.getPluginManager().callEvent(event);
     }
     public void expire() {
 
@@ -58,9 +63,12 @@ public class TpaRequest extends BukkitRunnable {
         Player req = Bukkit.getPlayer(requester);
         Player rec = Bukkit.getPlayer(recipient);
 
-        req.teleport(rec);
+        req.teleport(event.getTeleportLocation());
         LangManager.sendMessage(req, "tpa-module.player-teleported");
         LangManager.sendMessage(rec, "tpa-module.request-accepted");
+
+
+
 
         isExpired = true;
         TpaRequestManager.closeRequest(this);

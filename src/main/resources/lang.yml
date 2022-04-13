@@ -26,3 +26,4 @@ drone-module:
     - "&a # &7Drone activated."
   drone-deactivated:
     - "&c # &7Drone deactivated."
+  drone-activated-lower: "&7Type &f'&a/drone&f' &7to exit drone mode."

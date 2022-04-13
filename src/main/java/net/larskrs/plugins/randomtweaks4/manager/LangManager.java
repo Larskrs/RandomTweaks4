@@ -3,6 +3,7 @@ package net.larskrs.plugins.randomtweaks4.manager;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.larskrs.plugins.randomtweaks4.RandomTweaks4;
 import net.larskrs.plugins.randomtweaks4.tools.MCTextUtil;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -37,9 +38,9 @@ public class LangManager {
             boolean isFound = message.contains(cen);
             if (isFound) {
                 String ne = StringUtils.remove(message, cen);
-                MCTextUtil.sendCenteredMessage(p, ChatColor.translateAlternateColorCodes('&', PlaceholderAPI.setPlaceholders(p, ne)));
+                MCTextUtil.sendCenteredMessage(p, ChatColor.translateAlternateColorCodes('&', (RandomTweaks4.getInstance().hasPlaceholderAPI()) ? PlaceholderAPI.setPlaceholders(p, ne) : ne));
             } else {
-                p.sendMessage(ChatColor.translateAlternateColorCodes('&', PlaceholderAPI.setPlaceholders(p, message)));
+                p.sendMessage(ChatColor.translateAlternateColorCodes('&', (RandomTweaks4.getInstance().hasPlaceholderAPI()) ? PlaceholderAPI.setPlaceholders(p, message) : message));
             }
         }
     }
@@ -70,5 +71,9 @@ public class LangManager {
             ret.add(r.replace(placeholder, result));
         }
         return ret;
+    }
+
+    public static String getSingleMessageFromLocation(String location) {
+        return ChatColor.translateAlternateColorCodes('&', lang.getString(location));
     }
 }

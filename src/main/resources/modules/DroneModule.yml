@@ -1,3 +1,7 @@
 # This is a cool thing to have on your server.
 # When set as false this module will not be enabled.
 enabled: true
+
+# This requires people to download a resource pack on launch. Very small i tell you but still, it is like 6 seconds of not doing anything for your players,
+# but the price is realy nice. Your playerss can craft a drone and use it to fly, instead of having infinite drones, this does not require any permissions.
+custom-item: true

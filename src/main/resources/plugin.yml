@@ -4,3 +4,4 @@ main: net.larskrs.plugins.randomtweaks4.RandomTweaks4
 authors: [ Larskrs ]
 softdepend:
   - Citizens
+  - PlaceholderAPI

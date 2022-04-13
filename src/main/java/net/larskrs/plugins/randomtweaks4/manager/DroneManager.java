@@ -8,7 +8,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,13 +32,41 @@ public class DroneManager {
     public static void addDrone(UUID uuid) {
         if (!isDrone(uuid)) {
             drones.add(new Drone(uuid));
+
+            Player p = Bukkit.getPlayer(uuid);
+
+            DroneManager.addDrone(p.getUniqueId());
+            LangManager.sendMessage(p, "drone-module.drone-activated");
+            DataFileManager.getConfig().set("player-data." + p.getUniqueId() + ".drone.gamemode", p.getGameMode().getValue());
+            DataFileManager.getConfig().set("player-data." + p.getUniqueId() + ".drone.can-fly", p.getAllowFlight());
+            DataFileManager.getConfig().set("player-data." + p.getUniqueId() + ".drone.health", p.getHealth());
+            ConfigTools.setLocationToConfSection(DataFileManager.getConfig(), "player-data." + p.getUniqueId() + ".drone", p.getLocation());
+            ConfigTools.setVector(DataFileManager.getConfig(), "player-data." + p.getUniqueId() + ".drone.velocity", p.getVelocity());
+            ConfigTools.savePlayerInventory(DataFileManager.getConfig(), "player-data." + p.getUniqueId() + ".drone.inventory", p.getInventory());
+            DataFileManager.saveFile();
+            DataFileManager.reloadFile();
+            // Actual Changes
+            p.setGameMode(GameMode.ADVENTURE);
+            p.setAllowFlight(true);
+            p.setFlying(true);
+            p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 999999 * 20, 1));
+            p.setHealth(p.getMaxHealth());
+            p.getInventory().clear();
+            if (RandomTweaks4.getInstance().hasCitizens()) {
+                DroneManager.getDrone(p.getUniqueId()).spawnNpc();
+            }
+            p.teleport(p.getLocation().add(new Vector(0,0.2,0)));
+
+            for (Player ppl : Bukkit.getOnlinePlayers()) {
+                if (ppl != p) {
+                    ppl.hidePlayer(p);
+                }
+            }
         }
     }
     public static void removeDrone(UUID uuid) {
         if (isDrone(uuid)) {
-            if (RandomTweaks4.getInstance().hasCitizens()) {
-            getDrone(uuid).clearNpc();
-            }
+            getDrone(uuid).clear();
             drones.remove(getDrone(uuid));
 
         }
@@ -87,11 +117,9 @@ public class DroneManager {
     public static Drone getDrone(UUID uniqueId) {
         for (Drone d : drones) {
             if (d.owner == uniqueId) {
-                Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + " found drone.");
                 return d;
             }
         }
-        Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_RED + " failed to catch drone.");
         return null;
     }
 }
